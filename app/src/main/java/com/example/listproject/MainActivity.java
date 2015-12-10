@@ -3,6 +3,7 @@ package com.example.listproject;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -28,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
     private ListAdapter adapter;
-    TextView header_title;
     String url = "https://dl.dropboxusercontent.com/u/746330/facts.json";
     ArrayList<listpojos> list = new ArrayList<listpojos>();
     ProgressDialog dialog;
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.listView);
-        header_title=(TextView)findViewById(R.id.header_title);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         dialog=new ProgressDialog(this);
         dialog.setMessage("Loading Please wait...");
@@ -65,7 +64,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 try {
                     swipeRefreshLayout.setRefreshing(false);
                     Log.e("Response :", response + "");
-                    header_title.setText(response.getString("title"));
+                    ActionBar actionBar = getSupportActionBar();
+                    actionBar.setTitle(response.getString("title"));
                     JSONArray array = response.getJSONArray("rows");
                     listpojos pojos;
                     for (int i=0; i<array.length(); i++) {
@@ -112,6 +112,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            dialog.setMessage("Refreshing., Please wait...");
+            dialog.show();
+            callAPI();
             return true;
         }
 
