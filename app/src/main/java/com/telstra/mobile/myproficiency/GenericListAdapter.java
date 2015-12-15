@@ -1,4 +1,4 @@
-package com.example.listproject;
+package com.telstra.mobile.myproficiency;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,17 +17,14 @@ import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import java.util.ArrayList;
 
-/**
- * Created by Srikanth on 12/9/2015.
- */
-public class ListAdapter extends BaseAdapter {
+public class GenericListAdapter extends BaseAdapter {
 
     LayoutInflater inflater;
     Activity context;
-    ArrayList<listpojos> listItem;
-    ListAdapter(Activity context,  ArrayList<listpojos> objects) {
+    ArrayList<JSONResponseModel> listItem;
+    GenericListAdapter(Activity context, ArrayList<JSONResponseModel> itemList) {
         this.context = context;
-        listItem=objects;
+        listItem=itemList;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

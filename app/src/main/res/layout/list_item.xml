@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="2dp">
+    android:background="@drawable/list_item_bg"
+    android:layout_margin="2dp">
 
     <LinearLayout
         android:id="@+id/linear"
@@ -19,14 +20,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="title"
-            android:textColor="#0000FF"
-            android:textSize="15sp" />
+            android:textColor="@color/list_item_heading_txt_color"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="desc"
+            android:textColor="@color/list_item_desc_txt_color"
             android:textSize="13sp" />
     </LinearLayout>
 

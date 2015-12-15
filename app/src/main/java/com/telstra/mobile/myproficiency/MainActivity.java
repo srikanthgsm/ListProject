@@ -1,4 +1,4 @@
-package com.example.listproject;
+package com.telstra.mobile.myproficiency;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,62 +22,67 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
+//Appcompat Actionbar is used for providing pull down to refresh in current activity
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private ListView listView;
-    private ListAdapter adapter;
+    private SwipeRefreshLayout pull_down_to_refresh;
+    private ListView generic_info_listview;
+    private GenericListAdapter generic_info_listadapter;
     String url = "https://dl.dropboxusercontent.com/u/746330/facts.json";
-    ArrayList<listpojos> list = new ArrayList<listpojos>();
+    ArrayList<JSONResponseModel> itemList = new ArrayList<JSONResponseModel>();
     ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = (ListView) findViewById(R.id.listView);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+
+        //initialization
+        generic_info_listview = (ListView) findViewById(R.id.generic_info_listview);
+        pull_down_to_refresh = (SwipeRefreshLayout) findViewById(R.id.pull_down_to_refresh);
         dialog=new ProgressDialog(this);
         dialog.setMessage("Loading Please wait...");
+
+
         dialog.show();
-        callAPI();
-        swipeRefreshLayout.setOnRefreshListener(this);
+        invokeAPICall(); // method that handshaking with server for json response
+
+        pull_down_to_refresh.setOnRefreshListener(this);
     }
 
-    /**
-     * This method is called when swipe refresh is pulled down
-     */
+
     @Override
     public void onRefresh() {
-        callAPI();
+        invokeAPICall();
     }
 
-    private void callAPI()
+    private void invokeAPICall()
     {
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue VolleyReqQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET,url,new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                // TODO Auto-generated method stub
                 try {
-                    swipeRefreshLayout.setRefreshing(false);
+
+                    pull_down_to_refresh.setRefreshing(false);
                     Log.e("Response :", response + "");
+
                     ActionBar actionBar = getSupportActionBar();
                     actionBar.setTitle(response.getString("title"));
+
                     JSONArray array = response.getJSONArray("rows");
-                    listpojos pojos;
+                    JSONResponseModel pojos;
                     for (int i=0; i<array.length(); i++) {
-                        pojos=new listpojos();
+                        pojos=new JSONResponseModel();
                         JSONObject obj = array.getJSONObject(i);
                         pojos.title=obj.getString("title");
                         pojos.description=obj.getString("description");
                         pojos.imageHref=obj.getString("imageHref");
-                        list.add(pojos);
+                        itemList.add(pojos);
                     }
                     dialog.dismiss();
-                    adapter = new ListAdapter(MainActivity.this, list);
-                    listView.setAdapter(adapter);
+                    generic_info_listadapter = new GenericListAdapter(MainActivity.this, itemList);
+                    generic_info_listview.setAdapter(generic_info_listadapter);
                 }catch (Exception e)
                 {
                     e.printStackTrace();
@@ -88,33 +92,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                // TODO Auto-generated method stub
-                swipeRefreshLayout.setRefreshing(false);
+                pull_down_to_refresh.setRefreshing(false);
                 dialog.dismiss();
             }
         });
-        queue.add(jsObjRequest);
+        VolleyReqQueue.add(jsObjRequest);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings) { // onclicking the refresh button in menu item
             dialog.setMessage("Refreshing., Please wait...");
             dialog.show();
-            callAPI();
+            invokeAPICall();
             return true;
         }
 

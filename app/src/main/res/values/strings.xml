@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ListProject</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Telstra</string>
     <string name="action_settings">Refresh</string>
+    <color name="list_item_bg_strt_color">#FCFCFC</color>
+    <color name="list_item_bg_end_color">#EBEBEB</color>
+    <color name="list_item_heading_txt_color">#28407D</color>
+    <color name="list_item_desc_txt_color">#464646</color>
+
+<!--
+    FCFCFC
+    EBEBEB
+
+    HeadingText color
+    1C3574
+    28407D
+    Desc Tcolor
+    464646
+-->
+
 
 </resources>

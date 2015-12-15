@@ -1,4 +1,4 @@
-package com.example.listproject;
+package com.telstra.myproficiency;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
