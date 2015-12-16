@@ -31,5 +31,6 @@
             </android.support.v4.widget.SwipeRefreshLayout>
 
         </LinearLayout>
+        <include layout="@layout/error_layout"></include>
     </FrameLayout>
 </RelativeLayout>

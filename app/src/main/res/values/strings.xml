@@ -3,21 +3,13 @@
 
     <string name="app_name">Telstra</string>
     <string name="action_settings">Refresh</string>
+    <string name="check_network_connection">Check Network Connection \n Tap to retry</string>
+
+
+    <color name="white">#FFFFFF</color>
     <color name="list_item_bg_strt_color">#FCFCFC</color>
     <color name="list_item_bg_end_color">#EBEBEB</color>
     <color name="list_item_heading_txt_color">#28407D</color>
     <color name="list_item_desc_txt_color">#464646</color>
-
-<!--
-    FCFCFC
-    EBEBEB
-
-    HeadingText color
-    1C3574
-    28407D
-    Desc Tcolor
-    464646
--->
-
 
 </resources>
